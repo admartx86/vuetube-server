@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\VideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,9 @@ use App\Http\Controllers\RegistrationController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::resource('articles', ArticleController::class);
-
 Route::post('/register', [RegistrationController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/videos/{id}', [VideoController::class, 'show']);
+Route::post('/videos', [VideoController::class, 'upload']);
+Route::delete('/videos/{id}', [VideoController::class, 'delete']);
