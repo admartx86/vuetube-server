@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Video;
 
 class VideoController extends Controller {
+    public function show_all() {
+        $videos = Video::all();
+        return response()->json($videos);
+    }
+    
     public function show($id) {
         $video = Video::find($id);
         if (!$video) {

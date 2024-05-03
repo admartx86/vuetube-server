@@ -24,5 +24,6 @@ Route::resource('articles', ArticleController::class);
 Route::post('/register', [RegistrationController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/videos/{id}', [VideoController::class, 'show']);
+Route::get('/videos', [VideoController::class, 'show_all']);
 Route::post('/videos', [VideoController::class, 'upload']);
 Route::delete('/videos/{id}', [VideoController::class, 'delete']);
