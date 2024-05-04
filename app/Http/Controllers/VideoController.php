@@ -19,10 +19,13 @@ class VideoController extends Controller {
         if (!$video) {
             return response()->json(['message' => 'Video not found'], 404);
         }
+        $video->views++;
+        $video->save();
         return response()->json([
             'id' => $video->id,
             'video_name' => $video->video_name,
-            'video_url' => $video->video_url
+            'video_url' => $video->video_url,
+            'views' => $video->views
         ]);
     }
     public function upload(Request $request) {
