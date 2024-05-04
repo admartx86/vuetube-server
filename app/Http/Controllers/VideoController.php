@@ -7,25 +7,54 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; 
 use App\Models\Video;
+use App\Models\User;
 
 class VideoController extends Controller {
-    public function show_all() {
+    
+    
+    public function show_all()
+    {
+    
         $videos = Video::all();
-        return response()->json($videos);
+    
+        $response = [];
+        foreach ($videos as $video) {
+            $authorId = $video->author;
+            $author = User::find($authorId);
+            $authorUsername = $author ? $author->username : null;
+    
+            $response[] = [
+                'id' => $video->id,
+                'video_name' => $video->video_name,
+                'video_url' => $video->video_url,
+                'views' => $video->views,
+                'author' => $authorUsername,
+            ];
+        }
+        return response()->json($response);
     }
+    
     
     public function show($id) {
         $video = Video::find($id);
+        
         if (!$video) {
             return response()->json(['message' => 'Video not found'], 404);
         }
+        
+        $authorId = $video->author;
+        $author = User::find($authorId);
+        $authorUsername = $author ? $author->username : null;
+
         $video->views++;
         $video->save();
         return response()->json([
             'id' => $video->id,
             'video_name' => $video->video_name,
             'video_url' => $video->video_url,
-            'views' => $video->views
+            'views' => $video->views,
+            'author' => $authorUsername
+           
         ]);
     }
     public function upload(Request $request) {
