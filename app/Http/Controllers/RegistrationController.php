@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,19 +15,14 @@ class RegistrationController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        // Optionally, auto-login the user after registration
         // Auth::login($user);
-
         return response()->json(['message' => 'User registered successfully'], 201);
     }
 }
