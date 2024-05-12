@@ -25,6 +25,7 @@ class VideoController extends Controller
                 'video_url' => $video->video_url,
                 'views' => $video->views,
                 'author' => $authorUsername,
+                'created_at' => $video->created_at
             ];
         }
         return response()->json($response);
@@ -46,7 +47,8 @@ class VideoController extends Controller
             'video_name' => $video->video_name,
             'video_url' => $video->video_url,
             'views' => $video->views,
-            'author' => $authorUsername
+            'author' => $authorUsername,
+            'created_at' => $video->created_at
 
         ]);
     }
