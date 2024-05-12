@@ -12,6 +12,7 @@ class RegistrationController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
@@ -19,6 +20,7 @@ class RegistrationController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $user = User::create([
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
