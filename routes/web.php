@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\VideoController;
 
@@ -23,6 +24,7 @@ Route::get('/', function () {
 Route::resource('articles', ArticleController::class);
 Route::post('/register', [RegistrationController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LogoutController::class, 'logout']);
 Route::get('/videos/{id}', [VideoController::class, 'show']);
 Route::get('/videos', [VideoController::class, 'show_all']);
 Route::post('/videos', [VideoController::class, 'upload']);
