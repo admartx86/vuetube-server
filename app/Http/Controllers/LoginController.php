@@ -9,7 +9,8 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $field = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $credentials = [$field => $request->input('login'), 'password' => $request->input('password')];
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
