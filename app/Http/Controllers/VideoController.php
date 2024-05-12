@@ -54,6 +54,16 @@ class VideoController extends Controller
         ]);
     }
 
+    public function generateUniqueCode($length = 5)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+        return $randomString;
+    }
+
     public function upload(Request $request)
     {
         Log::info('Request data:', $request->all());
@@ -79,11 +89,16 @@ class VideoController extends Controller
                 $video = new Video();
                 $video->video_name = $request->video_name;
                 $video->video_url = $videoUrl;
+                do {
+                    $uniqueCode = $this->generateUniqueCode();
+                } while (Video::where('unique_code', $uniqueCode)->exists());
+                $video->unique_code = $uniqueCode;
                 $video->save();
                 return response()->json([
                     'id' => $video->id,
                     'video_name' => $video->video_name,
-                    'video_url' => $video->video_url
+                    'video_url' => $video->video_url,
+                    'unique_code' => $video->unique_code
                 ], 201);
             } catch (Exception $e) {
                 Log::error('Failed to upload video to S3: ' . $e->getMessage());
