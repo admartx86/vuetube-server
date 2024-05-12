@@ -93,6 +93,7 @@ class VideoController extends Controller
                     $uniqueCode = $this->generateUniqueCode();
                 } while (Video::where('unique_code', $uniqueCode)->exists());
                 $video->unique_code = $uniqueCode;
+                $video->description = $request->description;
                 $video->save();
                 return response()->json([
                     'id' => $video->id,
