@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationController extends Controller
 {
@@ -24,7 +25,7 @@ class RegistrationController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        // Auth::login($user);
+        Auth::login($user);
         return response()->json(['message' => 'User registered successfully'], 201);
     }
 }
