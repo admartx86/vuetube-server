@@ -33,9 +33,9 @@ class VideoController extends Controller
         return response()->json($response);
     }
 
-    public function show($id)
+    public function show($unique_code)
     {
-        $video = Video::find($id);
+        $video = Video::where('unique_code', $unique_code)->first();
         if (!$video) {
             return response()->json(['message' => 'Video not found'], 404);
         }
