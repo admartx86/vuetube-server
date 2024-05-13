@@ -91,6 +91,7 @@ class VideoController extends Controller
                 $video = new Video();
                 $video->video_name = $request->video_name;
                 $video->video_url = $videoUrl;
+                $video->author = auth()->id();
                 do {
                     $uniqueCode = $this->generateUniqueCode();
                 } while (Video::where('unique_code', $uniqueCode)->exists());
