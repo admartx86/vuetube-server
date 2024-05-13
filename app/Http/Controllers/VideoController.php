@@ -26,7 +26,8 @@ class VideoController extends Controller
                 'views' => $video->views,
                 'author' => $authorUsername,
                 'created_at' => $video->created_at,
-                'description' => $video->description
+                'description' => $video->description,
+                'unique_code' => $video->unique_code
             ];
         }
         return response()->json($response);
@@ -50,7 +51,8 @@ class VideoController extends Controller
             'views' => $video->views,
             'author' => $authorUsername,
             'created_at' => $video->created_at,
-            'description' => $video->description
+            'description' => $video->description,
+            'unique_code' => $video->unique_code
         ]);
     }
 
