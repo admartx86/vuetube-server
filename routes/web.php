@@ -29,3 +29,4 @@ Route::get('/videos/{id}', [VideoController::class, 'show']);
 Route::get('/videos', [VideoController::class, 'show_all']);
 Route::post('/videos', [VideoController::class, 'upload']);
 Route::delete('/videos/{id}', [VideoController::class, 'delete']);
+Route::patch('/videos/{unique_code}/description', [VideoController::class, 'updateDescription']);

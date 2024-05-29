@@ -113,9 +113,10 @@ class VideoController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete($unique_code)
     {
-        $video = Video::find($id);
+        // $video = Video::find($id);
+        $video = Video::where('unique_code', $unique_code)->first();
         if (!$video) {
             return response()->json(['message' => 'Video not found'], 404);
         }
@@ -127,5 +128,26 @@ class VideoController extends Controller
         Storage::disk('s3')->delete($filename);
         $video->delete();
         return response()->json(['message' => 'Video deleted successfully'], 200);
+    }
+
+    public function updateDescription(Request $request, $unique_code)
+    {
+        $request->validate([
+            'description' => 'required|string|max:5000'
+        ]);
+
+        $video = Video::where('unique_code', $unique_code)->first();
+        if (!$video) {
+            return response()->json(['message' => 'Video not found'], 404);
+        }
+
+        if (auth()->id() != $video->author) {
+            return response()->json(['message' => 'Unauthorized to perform this action'], 403);
+        }
+
+        $video->description = $request->description;
+        $video->save();
+
+        return response()->json(['message' => 'Description updated successfully', 'description' => $video->description], 200);
     }
 }
